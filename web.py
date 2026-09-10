@@ -230,6 +230,8 @@ async def search(q: str):
 
 
 if __name__ == "__main__":
-    print("启动 Academic Search Web UI...")
-    print("打开浏览器访问: http://localhost:8000")
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    import os
+    port = int(os.environ.get("PORT", 8000))
+    print(f"启动 Academic Search Web UI...")
+    print(f"打开浏览器访问: http://0.0.0.0:{port}")
+    uvicorn.run(app, host="0.0.0.0", port=port)
