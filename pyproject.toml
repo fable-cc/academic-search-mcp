@@ -65,6 +65,8 @@ research-paper-mcp = "research_paper_mcp:main"
 [tool.hatch.build.targets.wheel]
 # 保持现有的扁平布局，不改动 server.py / web.py 的路径，零侵入
 py-modules = ["server", "web", "research_paper_mcp"]
+# force-include 兜底：py-modules 在某些 hatchling 版本下会漏打包 server.py/web.py
+force-include = { "server.py" = "server.py", "web.py" = "web.py" }
 
 [tool.hatch.build.targets.sdist]
 include = [
