@@ -1,2 +1,11 @@
+# 核心依赖 —— MCP 服务本体只需要这两个
 mcp>=1.0.0,<2.0.0
 httpx>=0.27.0
+
+# 可选：浏览器版 UI（web.py）
+# 修复记录（2026-10-12）：原文件只有上面两行，但 web.py 依赖 fastapi 与 uvicorn，
+# 导致全新环境按 README 装完后执行 `python web.py` 会直接 ImportError。
+# 这里保持注释形式，避免只想要 MCP 服务的用户被迫装 Web 依赖。
+# 需要 Web UI 时执行：pip install -e ".[web]"
+# fastapi>=0.110
+# uvicorn>=0.27
