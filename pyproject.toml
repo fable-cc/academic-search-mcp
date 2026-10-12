@@ -1,0 +1,83 @@
+[build-system]
+requires = ["hatchling>=1.24"]
+build-backend = "hatchling.build"
+
+[project]
+name = "research-paper-mcp"
+version = "0.2.0"
+description = "MCP server that lets AI agents search 187M+ academic papers across Crossref and arXiv"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+authors = [{ name = "fable-cc", url = "https://fable-castle.com/" }]
+keywords = [
+    "mcp",
+    "mcp-server",
+    "model-context-protocol",
+    "academic",
+    "research",
+    "arxiv",
+    "crossref",
+    "literature-review",
+    "llm",
+    "ai-agent",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+    "Topic :: Text Processing :: Indexing",
+]
+
+dependencies = [
+    "mcp>=1.0.0,<2.0.0",
+    "httpx>=0.27.0",
+]
+
+[project.optional-dependencies]
+# web.py 需要这两个，但原 requirements.txt 里漏了 —— 见 APPLY.md 的问题清单
+web = [
+    "fastapi>=0.110",
+    "uvicorn>=0.27",
+]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.23",
+    "ruff>=0.5",
+]
+
+[project.urls]
+Homepage = "https://fable-castle.com/"
+Repository = "https://github.com/fable-cc/research-paper-mcp"
+Issues = "https://github.com/fable-cc/research-paper-mcp/issues"
+Changelog = "https://github.com/fable-cc/research-paper-mcp/blob/main/CHANGELOG.md"
+
+[project.scripts]
+research-paper-mcp = "research_paper_mcp:main"
+
+[tool.hatch.build.targets.wheel]
+# 保持现有的扁平布局，不改动 server.py / web.py 的路径，零侵入
+py-modules = ["server", "web", "research_paper_mcp"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/server.py",
+    "/web.py",
+    "/research_paper_mcp.py",
+    "/README.md",
+    "/LICENSE",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
