@@ -1,16 +1,20 @@
 """
-Academic MCP Server - 学术文献检索 MCP 服务
+research-paper-mcp - 学术文献检索 MCP 服务
 通过 MCP 协议让 AI Agent 搜索和查询学术论文。
 
-数据源：
-- Crossref (CC0): 1.87 亿篇论文元数据
-- arXiv: 290 万篇预印本
-- PubMed Central: 生物医学开放获取全文
+数据源（均为开放元数据，无版权风险）：
+- Crossref (CC0): 1.87 亿篇跨学科论文元数据
+- arXiv: 290 万篇预印本（计算机、数学、物理、生物）
 
-启动方式：
-  python server.py
-然后在 Claude Desktop / 其他 MCP 客户端中配置：
-  {"mcpServers": {"academic": {"command": "python", "args": ["/path/to/server.py"]}}}
+启动方式（任选其一）：
+  research-paper-mcp            # pip 安装后
+  python -m research_paper_mcp  # 模块方式
+  python server.py              # 直接运行本文件
+
+MCP 客户端配置：
+  {"mcpServers": {"research-paper": {"command": "python", "args": ["-m", "research_paper_mcp"]}}}
+
+注意：PubMed Central 全文检索为规划中功能，当前尚未实现（见 PMC_API 常量注释）。
 """
 
 import re
@@ -27,6 +31,8 @@ mcp = FastMCP("academic-search")
 CROSSREF_MAILTO = "academic-mcp@example.com"
 CROSSREF_API = "https://api.crossref.org/works"
 ARXIV_API = "https://export.arxiv.org/api/query"
+# 预留：PMC 全文检索尚未实现。如需启用，请新增对应 @mcp.tool 后再在
+# 上方 docstring 的「数据源」列表中恢复 PubMed Central 这一行。
 PMC_API = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
 
 # 常用请求头
